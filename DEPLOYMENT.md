@@ -77,22 +77,24 @@ Si tienes un dominio propio (ejemplo: www.adsoftwaresolutions.com):
    185.199.111.153
    ```
 
-## 📧 Configurar EmailJS
+## 📧 EmailJS - ✅ Configurado
 
-Ahora que tu sitio está en línea, configura el formulario de contacto:
+El formulario de contacto ya está configurado con EmailJS y listo para usar:
 
-1. Ve a https://www.emailjs.com/
-2. Crea una cuenta gratuita
-3. Configura un servicio de email
-4. Crea un template
-5. Obtén tus credenciales (Service ID, Template ID, Public Key)
-6. Actualiza `script.js` con tus credenciales
-7. Sube los cambios:
-   ```bash
-   git add script.js
-   git commit -m "Configure EmailJS"
-   git push
-   ```
+- **Service ID**: `service_0u7ngnl`
+- **Template ID**: `template_b0tdngh`
+- **Public Key**: `cpBW9lq8p6TlyfwE5`
+
+Los mensajes del formulario se enviarán automáticamente a: **aacostaantonio13@gmail.com**
+
+### Verificar el Template en EmailJS
+
+Asegúrate de que tu template en EmailJS incluya estas variables:
+- `{{from_name}}` - Nombre del remitente
+- `{{from_email}}` - Email del remitente
+- `{{phone}}` - Teléfono del remitente
+- `{{message}}` - Mensaje del remitente
+- `{{to_email}}` - Email de destino (aacostaantonio13@gmail.com)
 
 ## 🔄 Actualizar el Sitio
 

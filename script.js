@@ -12,7 +12,7 @@ window.addEventListener('scroll', () => {
     } else {
         navbar.classList.remove('scrolled');
     }
-    
+
     // Update active nav link based on scroll position
     updateActiveNavLink();
 });
@@ -40,7 +40,7 @@ navLinks.forEach(link => {
         e.preventDefault();
         const targetId = link.getAttribute('href');
         const targetSection = document.querySelector(targetId);
-        
+
         if (targetSection) {
             const offsetTop = targetSection.offsetTop - 80;
             window.scrollTo({
@@ -55,12 +55,12 @@ navLinks.forEach(link => {
 function updateActiveNavLink() {
     const sections = document.querySelectorAll('section[id]');
     const scrollPosition = window.scrollY + 100;
-    
+
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.offsetHeight;
         const sectionId = section.getAttribute('id');
-        
+
         if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
             navLinks.forEach(link => {
                 link.classList.remove('active');
@@ -109,14 +109,14 @@ const formSuccess = document.getElementById('formSuccess');
 function validateForm(formData) {
     let isValid = true;
     const errors = {};
-    
+
     // Name validation
     const name = formData.get('name').trim();
     if (name.length < 3) {
         errors.name = 'El nombre debe tener al menos 3 caracteres';
         isValid = false;
     }
-    
+
     // Email validation
     const email = formData.get('email').trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -124,7 +124,7 @@ function validateForm(formData) {
         errors.email = 'Por favor ingresa un correo electrónico válido';
         isValid = false;
     }
-    
+
     // Phone validation
     const phone = formData.get('phone').trim();
     const phoneRegex = /^[\d\s\-\+\(\)]{10,}$/;
@@ -132,14 +132,14 @@ function validateForm(formData) {
         errors.phone = 'Por favor ingresa un número de teléfono válido';
         isValid = false;
     }
-    
+
     // Message validation
     const message = formData.get('message').trim();
     if (message.length < 10) {
         errors.message = 'El mensaje debe tener al menos 10 caracteres';
         isValid = false;
     }
-    
+
     return { isValid, errors };
 }
 
@@ -147,7 +147,7 @@ function validateForm(formData) {
 function displayErrors(errors) {
     // Clear all previous errors
     document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
-    
+
     // Display new errors
     Object.keys(errors).forEach(field => {
         const errorElement = document.getElementById(`${field}Error`);
@@ -165,89 +165,61 @@ function clearErrors() {
 // Form submission handler
 contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const formData = new FormData(contactForm);
     const validation = validateForm(formData);
-    
+
     if (!validation.isValid) {
         displayErrors(validation.errors);
         return;
     }
-    
+
     clearErrors();
-    
+
     // Get form values
     const name = formData.get('name').trim();
     const email = formData.get('email').trim();
     const phone = formData.get('phone').trim();
     const message = formData.get('message').trim();
-    
+
     // Disable submit button
     const submitButton = contactForm.querySelector('.submit-button');
     const originalButtonText = submitButton.innerHTML;
     submitButton.disabled = true;
     submitButton.innerHTML = '<span>Enviando...</span><i class="fas fa-spinner fa-spin"></i>';
-    
+
     try {
         // Send email using EmailJS
-        // Note: You need to configure EmailJS with your account
-        // Visit https://www.emailjs.com/ to set up your account
-        // Replace 'YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', and 'YOUR_PUBLIC_KEY' with your actual values
-        
-        // For now, we'll simulate the email sending
-        // Uncomment and configure the EmailJS code below when ready
-        
-        /*
-        emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
+        emailjs.send('service_0u7ngnl', 'template_b0tdngh', {
             from_name: name,
             from_email: email,
             phone: phone,
             message: message,
             to_email: 'aacostaantonio13@gmail.com'
-        }, 'YOUR_PUBLIC_KEY')
-        .then(() => {
-            // Show success message
-            contactForm.style.display = 'none';
-            formSuccess.classList.add('show');
-            
-            // Reset form
-            contactForm.reset();
-            
-            // Hide success message and show form again after 5 seconds
-            setTimeout(() => {
-                formSuccess.classList.remove('show');
-                contactForm.style.display = 'block';
-            }, 5000);
         })
-        .catch((error) => {
-            console.error('Error sending email:', error);
-            alert('Hubo un error al enviar el mensaje. Por favor intenta nuevamente o contáctanos directamente por WhatsApp.');
-        })
-        .finally(() => {
-            submitButton.disabled = false;
-            submitButton.innerHTML = originalButtonText;
-        });
-        */
-        
-        // Simulated success (remove this when implementing EmailJS)
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        // Show success message
-        contactForm.style.display = 'none';
-        formSuccess.classList.add('show');
-        
-        // Reset form
-        contactForm.reset();
-        
-        // Hide success message and show form again after 5 seconds
-        setTimeout(() => {
-            formSuccess.classList.remove('show');
-            contactForm.style.display = 'block';
-        }, 5000);
-        
-        submitButton.disabled = false;
-        submitButton.innerHTML = originalButtonText;
-        
+            .then(() => {
+                // Show success message
+                contactForm.style.display = 'none';
+                formSuccess.classList.add('show');
+
+                // Reset form
+                contactForm.reset();
+
+                // Hide success message and show form again after 5 seconds
+                setTimeout(() => {
+                    formSuccess.classList.remove('show');
+                    contactForm.style.display = 'block';
+                }, 5000);
+            })
+            .catch((error) => {
+                console.error('Error sending email:', error);
+                alert('Hubo un error al enviar el mensaje. Por favor intenta nuevamente o contáctanos directamente por WhatsApp.');
+            })
+            .finally(() => {
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
+            });
+
     } catch (error) {
         console.error('Error:', error);
         alert('Hubo un error al enviar el mensaje. Por favor intenta nuevamente o contáctanos directamente por WhatsApp.');
@@ -348,7 +320,7 @@ if ('IntersectionObserver' in window) {
             }
         });
     });
-    
+
     const lazyImages = document.querySelectorAll('img[data-src]');
     lazyImages.forEach(img => imageObserver.observe(img));
 }
@@ -373,7 +345,7 @@ function debounce(func, wait) {
 // Throttle function for scroll events
 function throttle(func, limit) {
     let inThrottle;
-    return function() {
+    return function () {
         const args = arguments;
         const context = this;
         if (!inThrottle) {
@@ -396,7 +368,7 @@ window.addEventListener('scroll', throttle(() => {
 document.addEventListener('DOMContentLoaded', () => {
     // Set initial active nav link
     updateActiveNavLink();
-    
+
     // Add smooth reveal animation to hero content
     const heroContent = document.querySelector('.hero-content');
     if (heroContent) {
@@ -404,6 +376,6 @@ document.addEventListener('DOMContentLoaded', () => {
             heroContent.style.opacity = '1';
         }, 100);
     }
-    
+
     console.log('AD Software Solutions - Website loaded successfully');
 });
