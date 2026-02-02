@@ -168,15 +168,15 @@ window.addEventListener('load', () => {
     // MODE TOGGLE (DARK / ENERGY)
     // ===================================
     const modeToggle = document.getElementById('modeToggle');
+    const modeIcon = document.getElementById('modeIcon');
     const body = document.body;
-    const modeLabel = modeToggle.querySelector('.mode-label');
 
     // Check for current mode to sync label
     const currentMode = localStorage.getItem('mode') || 'standard';
     if (currentMode === 'energy') {
-        modeLabel.textContent = 'ENERGÍA';
+        modeIcon.className = 'fas fa-bolt';
     } else {
-        modeLabel.textContent = 'OSCURO';
+        modeIcon.className = 'fas fa-moon';
     }
 
     modeToggle.addEventListener('click', () => {
@@ -185,7 +185,7 @@ window.addEventListener('load', () => {
 
         const isEnergy = body.classList.contains('energy-mode');
         localStorage.setItem('mode', isEnergy ? 'energy' : 'standard');
-        modeLabel.textContent = isEnergy ? 'ENERGÍA' : 'OSCURO';
+        modeIcon.className = isEnergy ? 'fas fa-bolt' : 'fas fa-moon';
 
         // Add a temporary "glitch" or "surge" effect
         body.classList.add('mode-transition');

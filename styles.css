@@ -136,16 +136,34 @@ body.energy-mode::before {
 .mode-toggle {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.5rem 1rem;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border-glow);
-    border-radius: 30px;
+    border-radius: 50%;
     cursor: pointer;
     transition: all var(--transition-normal);
     position: relative;
     overflow: hidden;
     margin-left: 1.5rem;
+}
+
+.mode-toggle i {
+    font-size: 1.2rem;
+    color: var(--color-silver);
+    transition: all var(--transition-normal);
+}
+
+.mode-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.mode-toggle:hover i {
+    color: var(--accent-color);
+    text-shadow: 0 0 10px var(--accent-glow);
 }
 
 body.energy-mode .mode-toggle {
@@ -155,14 +173,9 @@ body.energy-mode .mode-toggle {
 }
 
 body.energy-mode .mode-toggle i {
-    color: var(--color-neon-green);
+    color: var(--color-neon-green) !important;
     text-shadow: 0 0 10px var(--color-neon-green);
     animation: corePulse 1s infinite !important;
-}
-
-body.energy-mode .mode-label {
-    color: var(--color-neon-green);
-    text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
 }
 
 /* ===================================
