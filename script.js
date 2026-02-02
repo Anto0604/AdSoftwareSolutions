@@ -1,4 +1,275 @@
 // ===================================
+// INITIAL THEME APPLICATION
+// ===================================
+(function () {
+    const currentMode = localStorage.getItem('mode') || 'standard';
+    if (currentMode === 'energy') {
+        document.body.classList.add('energy-mode');
+    }
+})();
+
+// ===================================
+// TECHNOLOGICAL SOUND SYSTEM (Procedural)
+// ===================================
+
+class TechAudio {
+    constructor() {
+        this.ctx = null;
+    }
+
+    init() {
+        if (!this.ctx) {
+            this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (this.ctx.state === 'suspended') {
+            this.ctx.resume();
+        }
+    }
+
+    playDataSync(progress) {
+        this.init();
+        if (this.ctx.state === 'suspended') return;
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        // Base frequency increases with progress
+        const freq = 100 + (progress * 8);
+        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+        // Add a slight rhythmic pulse
+        gain.gain.setValueAtTime(0, this.ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.05, this.ctx.currentTime + 0.05);
+        gain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 0.1);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.1);
+    }
+
+    playAccessGranted() {
+        this.init();
+        if (this.ctx.state === 'suspended') return;
+
+        const now = this.ctx.currentTime;
+        const freqs = [800, 1200];
+
+        freqs.forEach((f, i) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+
+            osc.frequency.setValueAtTime(f, now + (i * 0.1));
+            gain.gain.setValueAtTime(0, now + (i * 0.1));
+            gain.gain.linearRampToValueAtTime(0.1, now + (i * 0.1) + 0.05);
+            gain.gain.linearRampToValueAtTime(0, now + (i * 0.1) + 0.2);
+
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(now + (i * 0.1));
+            osc.stop(now + (i * 0.1) + 0.2);
+        });
+    }
+
+    playSystemSurge() {
+        this.init();
+        if (this.ctx.state === 'suspended') return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(400, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(50, this.ctx.currentTime + 0.3);
+
+        gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.3);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.3);
+    }
+}
+
+const techAudio = new TechAudio();
+
+// ===================================
+// TECHNOLOGICAL LOADER LOGIC
+// ===================================
+
+window.addEventListener('load', () => {
+    const loader = document.getElementById('loader');
+    const progressBar = document.getElementById('progressBar');
+    const percentageText = document.getElementById('loaderPercentage');
+    const statusText = document.getElementById('loaderStatus');
+
+    let progress = 0;
+    const loadingMessages = [
+        "CARGANDO MÓDULOS DE DATOS...",
+        "INICIALIZANDO PROTOCOLOS DE SEGURIDAD...",
+        "SINCRONIZANDO CON GRID CENTRAL...",
+        "VERIFICANDO FIRMAS DIGITALES...",
+        "ACCESO CONCEDIDO"
+    ];
+
+    const updateLoader = () => {
+        if (progress <= 100) {
+            progressBar.style.width = `${progress}%`;
+            percentageText.textContent = `${Math.floor(progress)}%`;
+
+            // Randomize status messages
+            const msgIndex = Math.min(Math.floor(progress / 25), loadingMessages.length - 1);
+            statusText.textContent = loadingMessages[msgIndex];
+
+            // Play procedural sound periodically
+            if (Math.floor(progress) % 5 === 0) {
+                techAudio.playDataSync(progress);
+            }
+
+            progress += Math.random() * 3 + 1; // Faster loading feel
+
+            if (progress < 100) {
+                setTimeout(updateLoader, 60);
+            } else {
+                // Final state
+                progressBar.style.width = '100%';
+                percentageText.textContent = '100%';
+                statusText.textContent = 'SISTEMA OPERATIVO';
+                techAudio.playAccessGranted();
+
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                        animateCounters();
+                    }, 800);
+                }, 600);
+            }
+        }
+    };
+
+    // Interaction to unlock audio
+    const setupAudio = () => {
+        techAudio.init();
+        ['click', 'keydown', 'touchstart', 'mousedown'].forEach(evt => {
+            document.removeEventListener(evt, setupAudio);
+        });
+    };
+
+    ['click', 'keydown', 'touchstart', 'mousedown'].forEach(evt => {
+        document.addEventListener(evt, setupAudio);
+    });
+
+    // Start loading sequence
+    setTimeout(updateLoader, 200);
+    // ===================================
+    // MODE TOGGLE (DARK / ENERGY)
+    // ===================================
+    const modeToggle = document.getElementById('modeToggle');
+    const body = document.body;
+    const modeLabel = modeToggle.querySelector('.mode-label');
+
+    // Check for current mode to sync label
+    const currentMode = localStorage.getItem('mode') || 'standard';
+    if (currentMode === 'energy') {
+        modeLabel.textContent = 'ENERGÍA';
+    } else {
+        modeLabel.textContent = 'OSCURO';
+    }
+
+    modeToggle.addEventListener('click', () => {
+        body.classList.toggle('energy-mode');
+        techAudio.playSystemSurge();
+
+        const isEnergy = body.classList.contains('energy-mode');
+        localStorage.setItem('mode', isEnergy ? 'energy' : 'standard');
+        modeLabel.textContent = isEnergy ? 'ENERGÍA' : 'OSCURO';
+
+        // Add a temporary "glitch" or "surge" effect
+        body.classList.add('mode-transition');
+        setTimeout(() => body.classList.remove('mode-transition'), 1000);
+    });
+
+    // ===================================
+    // HERO TERMINAL TYPING EFFECT
+    // ===================================
+    const terminalLines = [
+        "Inicializando sistema...",
+        "Cargando módulos de software...",
+        "AD Software Solutions online."
+    ];
+
+    const typingElement = document.querySelector('.typing-text');
+    let lineIndex = 0;
+    let charIndex = 0;
+
+    function typeLine() {
+        if (lineIndex < terminalLines.length) {
+            const currentLine = terminalLines[lineIndex];
+
+            if (charIndex < currentLine.length) {
+                typingElement.textContent += currentLine.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeLine, 50 + Math.random() * 50);
+            } else {
+                // Line finished
+                setTimeout(() => {
+                    // Create a new line element to keep previous text
+                    const newLine = document.createElement('div');
+                    newLine.className = 'terminal-line';
+                    newLine.innerHTML = `<span class="terminal-prompt">></span>${typingElement.textContent}`;
+
+                    const activeLine = document.querySelector('.terminal-active-line');
+                    typingElement.parentElement.insertBefore(newLine, activeLine);
+
+                    // Reset for next line
+                    typingElement.textContent = "";
+                    lineIndex++;
+                    charIndex = 0;
+
+                    if (lineIndex < terminalLines.length) {
+                        typeLine();
+                    }
+                }, 500);
+            }
+        }
+    }
+
+    // Start typing after initial delay
+    setTimeout(typeLine, 2500);
+});
+
+// ===================================
+// ANIMATED COUNTERS
+// ===================================
+
+function animateCounters() {
+    const counters = document.querySelectorAll('.stat-number');
+
+    counters.forEach(counter => {
+        const target = counter.getAttribute('data-target');
+        const suffix = counter.getAttribute('data-suffix') || '';
+        const duration = 2000; // 2 seconds
+        const increment = target / (duration / 16); // 60fps
+        let current = 0;
+
+        const updateCounter = () => {
+            current += increment;
+            if (current < target) {
+                counter.textContent = Math.floor(current) + suffix;
+                requestAnimationFrame(updateCounter);
+            } else {
+                counter.textContent = target + suffix;
+            }
+        };
+
+        updateCounter();
+    });
+}
+
+// ===================================
 // NAVIGATION FUNCTIONALITY
 // ===================================
 

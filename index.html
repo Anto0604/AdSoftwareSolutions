@@ -16,7 +16,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
     <!-- Font Awesome for Icons -->
@@ -27,6 +27,21 @@
 </head>
 
 <body>
+    <!-- Technological Progress Bar Loader -->
+    <div id="loader">
+        <div class="loader-content">
+            <div class="loader-title">INICIALIZANDO SISTEMAS STARK</div>
+            <div class="tech-progress-container">
+                <div class="tech-progress-bar" id="progressBar"></div>
+                <div class="scanline"></div>
+            </div>
+            <div class="loader-stats">
+                <span class="loader-percentage" id="loaderPercentage">0%</span>
+                <span class="loader-status" id="loaderStatus">CARGANDO MÓDULOS DE DATOS...</span>
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation Bar -->
     <nav class="navbar" id="navbar">
         <div class="container nav-container">
@@ -42,6 +57,11 @@
                 <li><a href="#contacto" class="nav-link">Contacto</a></li>
             </ul>
 
+            <div class="mode-toggle" id="modeToggle" title="Alternar Modo Energía">
+                <i class="fas fa-bolt"></i>
+                <span class="mode-label">Energía</span>
+            </div>
+
             <div class="hamburger" id="hamburger">
                 <span></span>
                 <span></span>
@@ -52,7 +72,19 @@
 
     <!-- Hero Section -->
     <section class="hero" id="inicio">
-        <div class="hero-background">
+        <!-- Connection Lines Background -->
+        <div class="bg-connection-lines">
+            <svg width="100%" height="100%" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+                <path class="connection-path"
+                    d="M0,200 L200,400 L400,200 L600,400 L800,200 L1000,400 M0,600 L200,800 L400,600 L600,800 L800,600 L1000,800 M200,0 L400,200 L200,400 L400,600 L200,800 L400,1000 M600,0 L800,200 L600,400 L800,600 L600,800 L800,1000" />
+                <circle class="glow-point" cx="200" cy="400" r="3" />
+                <circle class="glow-point" cx="600" cy="400" r="3" />
+                <circle class="glow-point" cx="400" cy="600" r="3" />
+                <circle class="glow-point" cx="800" cy="600" r="3" />
+            </svg>
+        </div>
+
+        <div class="hero-shapes">
             <div class="gradient-overlay"></div>
             <div class="animated-shapes">
                 <div class="shape shape-1"></div>
@@ -69,22 +101,38 @@
                 Desarrollo de software a medida, automatización de procesos y sistemas empresariales diseñados para
                 maximizar tu productividad y crecimiento
             </p>
-            <a href="#contacto" class="cta-button fade-in-delay-2">
+            <div class="hero-terminal fade-in-delay-2">
+                <div class="terminal-header">
+                    <div class="terminal-dot red"></div>
+                    <div class="terminal-dot yellow"></div>
+                    <div class="terminal-dot green"></div>
+                    <div class="terminal-title">system_shell -- bash</div>
+                </div>
+                <div class="terminal-body" id="terminalText">
+                    <div class="terminal-active-line">
+                        <span class="terminal-prompt">></span>
+                        <span class="typing-text"></span>
+                        <span class="terminal-cursor"></span>
+                    </div>
+                </div>
+            </div>
+
+            <a href="#contacto" class="cta-button fade-in-delay-3">
                 <span>Solicitar Cotización</span>
                 <i class="fas fa-arrow-right"></i>
             </a>
 
             <div class="hero-stats fade-in-delay-3">
                 <div class="stat-item">
-                    <div class="stat-number">100+</div>
+                    <div class="stat-number" data-target="100" data-suffix="+">0+</div>
                     <div class="stat-label">Proyectos Completados</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">98%</div>
+                    <div class="stat-number" data-target="98" data-suffix="%">0%</div>
                     <div class="stat-label">Satisfacción del Cliente</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">24/7</div>
+                    <div class="stat-number" data-target="24" data-suffix="/7">0/7</div>
                     <div class="stat-label">Soporte Técnico</div>
                 </div>
             </div>
@@ -109,7 +157,11 @@
                 <!-- Service Card 1 -->
                 <div class="service-card" data-aos="fade-up">
                     <div class="service-icon">
-                        <i class="fas fa-code"></i>
+                        <svg viewBox="0 0 100 100" class="animated-svg">
+                            <path class="draw-path" d="M30 40 L15 50 L30 60 M70 40 L85 50 L70 60 M45 30 L55 70" />
+                            <circle class="glow-point" cx="15" cy="50" r="2" />
+                            <circle class="glow-point" cx="85" cy="50" r="2" />
+                        </svg>
                     </div>
                     <h3 class="service-title">Desarrollo de Software a Medida</h3>
                     <p class="service-description">
@@ -126,7 +178,11 @@
                 <!-- Service Card 2 -->
                 <div class="service-card" data-aos="fade-up" data-aos-delay="100">
                     <div class="service-icon">
-                        <i class="fas fa-globe"></i>
+                        <svg viewBox="0 0 100 100" class="animated-svg">
+                            <circle class="draw-path" cx="50" cy="50" r="35" />
+                            <path class="draw-path" d="M15 50 Q50 30 85 50 Q50 70 15 50" />
+                            <path class="draw-path" d="M50 15 Q30 50 50 85 Q70 50 50 15" />
+                        </svg>
                     </div>
                     <h3 class="service-title">Desarrollo Web Empresarial</h3>
                     <p class="service-description">
@@ -143,7 +199,11 @@
                 <!-- Service Card 3 -->
                 <div class="service-card" data-aos="fade-up" data-aos-delay="200">
                     <div class="service-icon">
-                        <i class="fas fa-cash-register"></i>
+                        <svg viewBox="0 0 100 100" class="animated-svg">
+                            <rect class="draw-path" x="20" y="30" width="60" height="40" rx="5" />
+                            <path class="draw-path" d="M30 70 L30 80 L70 80 L70 70 M25 45 H75" />
+                            <circle class="glow-point" cx="50" cy="55" r="3" />
+                        </svg>
                     </div>
                     <h3 class="service-title">Sistemas Administrativos y POS</h3>
                     <p class="service-description">
@@ -160,7 +220,11 @@
                 <!-- Service Card 4 -->
                 <div class="service-card" data-aos="fade-up" data-aos-delay="300">
                     <div class="service-icon">
-                        <i class="fas fa-robot"></i>
+                        <svg viewBox="0 0 100 100" class="animated-svg">
+                            <circle class="draw-path" cx="50" cy="40" r="15" />
+                            <path class="draw-path" d="M30 70 Q50 50 70 70 M50 55 V85 M35 75 H65" />
+                            <rect class="draw-path rotate-gear" x="42" y="32" width="16" height="16" rx="2" />
+                        </svg>
                     </div>
                     <h3 class="service-title">Automatización de Procesos</h3>
                     <p class="service-description">
@@ -177,7 +241,10 @@
                 <!-- Service Card 5 -->
                 <div class="service-card" data-aos="fade-up" data-aos-delay="400">
                     <div class="service-icon">
-                        <i class="fas fa-tools"></i>
+                        <svg viewBox="0 0 100 100" class="animated-svg">
+                            <path class="draw-path" d="M50 20 L80 35 V65 L50 80 L20 65 V35 Z" />
+                            <path class="draw-path pulse-path" d="M35 50 L45 60 L65 40" />
+                        </svg>
                     </div>
                     <h3 class="service-title">Mantenimiento y Soporte Técnico</h3>
                     <p class="service-description">
@@ -256,6 +323,8 @@
                 </div>
             </div>
         </div>
+    </section>
+
     </section>
 
     <!-- Contact Section -->
