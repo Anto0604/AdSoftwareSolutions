@@ -22,7 +22,7 @@
 
     /* Energy Mode Colors (Overridden via class) */
     --color-neon-green: #00FF41;
-
+    --color-green: #02671c;
     /* Typography */
     --font-main: 'Inter', sans-serif;
     --font-heading: 'Orbitron', sans-serif;
@@ -70,7 +70,7 @@ body.energy-mode {
 body.energy-mode .animated-svg {
     stroke-width: 2.5;
     /* Sharpness over thickness */
-    filter: drop-shadow(0 0 12px rgba(0, 255, 65, 0.4));
+    filter: drop-shadow(0 0 12px rgba(2, 254, 65, 0.4));
 }
 
 body.energy-mode .hero-terminal {
@@ -716,7 +716,7 @@ body.energy-mode .nav-link.active {
 }
 
 body.energy-mode .animated-svg {
-    stroke: var(--color-neon-green);
+    stroke: var(--color-green);
     filter: drop-shadow(0 0 10px rgba(0, 255, 65, 0.3));
 }
 

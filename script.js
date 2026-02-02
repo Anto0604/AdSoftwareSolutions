@@ -9,7 +9,7 @@
 })();
 
 // ===================================
-// TECHNOLOGICAL SOUND SYSTEM (Procedural)
+// TECHNOLOGICAL SOUND (Procedural)
 // ===================================
 
 class TechAudio {
