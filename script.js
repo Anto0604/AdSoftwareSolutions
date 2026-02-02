@@ -198,7 +198,7 @@ window.addEventListener('load', () => {
     const terminalLines = [
         "Inicializando sistema...",
         "Cargando módulos de software...",
-        "AD Software Solutions online."
+        "AD Software Solutions en línea."
     ];
 
     const typingElement = document.querySelector('.typing-text');
@@ -222,7 +222,7 @@ window.addEventListener('load', () => {
                     newLine.innerHTML = `<span class="terminal-prompt">></span>${typingElement.textContent}`;
 
                     const activeLine = document.querySelector('.terminal-active-line');
-                    typingElement.parentElement.insertBefore(newLine, activeLine);
+                    activeLine.parentElement.insertBefore(newLine, activeLine);
 
                     // Reset for next line
                     typingElement.textContent = "";
@@ -232,7 +232,7 @@ window.addEventListener('load', () => {
                     if (lineIndex < terminalLines.length) {
                         typeLine();
                     }
-                }, 500);
+                }, 200);
             }
         }
     }
